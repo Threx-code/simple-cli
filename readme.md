@@ -10,6 +10,8 @@ Features include
 - Run composer install to install all the dependencies
 
 ## Run Migration
+- Copy .env.example into .env
+- Update .env with required credentials
 - php command migration
 
 ## Consume API from terminal
