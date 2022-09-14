@@ -10,6 +10,7 @@ namespace App\Controllers;
 use App\Models\TableData;
 use App\Requests\AddDataRequest;
 use App\Requests\EditViewRequest;
+use App\Requests\UpdateDataRequest;
 use App\Services\ImageIntervention;
 use App\Validation\Csrf;
 use Exception;
@@ -83,12 +84,61 @@ class AddDataController extends Controller
             echo json_encode($validator);
             exit;
         }
+
         if ($this->checkToken($request['token'])) {
             $pageNo = Csrf::sanitizeString($request['page_no']) ;
             $data = (new TableData())->editContent($pageNo);
+            $data = json_decode($data, true);
 
-            return $this->view("add-data", compact('data')
+            return $this->view("edit-content", compact('data')
             );
         }
+    }
+
+
+    public function update()
+    {
+        $request = $_REQUEST;
+        $req = get_defined_vars();
+        $validator = (new UpdateDataRequest($req['request']))->validate();
+        if (!empty($validator)) {
+            echo json_encode($validator);
+            exit;
+        }
+
+        if ($this->checkToken($request['token'])) {
+            if (!empty($_FILES['image']['name'])) {
+                $imageName = random_bytes(32);
+                $imageName = substr($imageName, 0, 4);
+                $imageName = hash("ripemd128", $imageName);
+                $data['imageType'] = $_FILES['image']['type'];
+                $data['imageURL'] = "System/assets/images/" . $imageName . ".jpg";
+                $data['tempName'] = $_FILES['image']['tmp_name'];
+                $imageIntervention = new ImageIntervention;
+                $thumbnail = $imageIntervention->thumbnail($data);
+                $fullImage = $imageIntervention->fullImage($data);
+            }
+            $value = [];
+            $value['id'] = $request['id'];
+            $value['county'] = $request['county'];
+            $value['country'] = $request['country'];
+            $value['town'] = $request['town'];
+            $value['description'] =  $request['description'];
+            $value['image'] = $fullImage ?? null;
+            $value['thumbnail'] = $thumbnail ?? null;
+            $value['latitude'] = $request['latitude'];
+            $value['longitude'] = $request['longitude'];
+            $value['num_bedrooms'] = $request['num_bedrooms'];
+            $value['num_bathrooms'] = $request['num_bathrooms'];
+            $value['price'] = $request['price'];
+            $value['address'] = $request['address'];
+            $value['property_type'] = json_encode(["type" => $request['type'], "description" => $request['description']]);
+            $value['type'] = $request['type'];
+
+            $response = (new TableData())->updateData($value);
+
+            echo $response;
+        }
+
     }
 }

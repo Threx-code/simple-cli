@@ -92,7 +92,60 @@ class TableData extends Eloquent
 
     public function editContent($pageNo)
     {
-        return $this::where('id', $pageNo)
-            ->first();
+        return $this::where('id', $pageNo)->first();
+    }
+
+    public function updateData($value)
+    {
+        $data = $this::where('id', $value['id'])->first();
+        if(empty(json_decode($data, true))){
+            return "Sorry this data id does not exist";
+        }
+
+        if(!empty($value['county'])){
+            $data->county = Csrf::sanitizeString($value['county']);
+        }
+        if(!empty($value['country'])) {
+            $data->country = Csrf::sanitizeString($value['country']);
+        }
+        if(!empty($value['town'])) {
+            $data->town = Csrf::sanitizeString($value['town']);
+        }
+        if(!empty($value['description'])) {
+            $data->description = Csrf::sanitizeString($value['description']);
+        }
+        if(!empty($value['address'])) {
+            $data->address = Csrf::sanitizeString($value['address']);
+        }
+        if(!empty($value['image'])) {
+            $data->image = Csrf::sanitizeString($value['image']);
+        }
+        if(!empty($value['thumbnail'])) {
+            $data->thumbnail = Csrf::sanitizeString($value['thumbnail']);
+        }
+        if(!empty($value['latitude'])) {
+            $data->latitude = Csrf::sanitizeString($value['latitude']);
+        }
+        if(!empty($value['longitude'])) {
+            $data->longitude = Csrf::sanitizeString($value['longitude']);
+        }
+        if(!empty($value['num_bedrooms'])) {
+            $data->num_bedrooms = Csrf::sanitizeString($value['num_bedrooms']);
+        }
+        if(!empty($value['num_bathrooms'])) {
+            $data->num_bathrooms = Csrf::sanitizeString($value['num_bathrooms']);
+        }
+        if(!empty($value['price'])) {
+            $data->price = Csrf::sanitizeString($value['price']);
+        }
+        if(!empty($value['property_type'])) {
+            $data->property_type = $value['property_type'];
+        }
+        if(!empty($value['type'])) {
+            $data->type = Csrf::sanitizeString($value['type']);
+        }
+        $data->save();
+
+        return "Data updated successfully";
     }
 }

@@ -52,17 +52,11 @@ trait Csrf
      */
     public static function checkToken($var)
     {
-        if (!empty($var) && time() < Csrf::tokenTime()) {
-            if (hash_equals($var, Csrf::crfToken())) {
-                return Csrf::crfToken();
-            } else {
-                echo "You need to refresh this page <a href=''>Click here</a>";
-                unset($_SESSION['time'], $_SESSION['token']);
-                exit;
-            }
+        if (hash_equals($var, Csrf::crfToken())) {
+            return Csrf::crfToken();
         } else {
+            echo "You need to refresh this page <a href='index'>Click here</a>";
             unset($_SESSION['time'], $_SESSION['token']);
-            echo "Page expired, click here to <a href=''>Refresh</a>";
             exit;
         }
     }
