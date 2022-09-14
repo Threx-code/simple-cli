@@ -8,10 +8,11 @@
 
 namespace App\Command\CLI;
 
+use App\Command\Helpers\CommandHelper;
 use App\Services\APIClient;
 use GuzzleHttp\Exception\GuzzleException;
 
-class APICommand extends \App\Command\Helpers\CommandHelper
+class APICommand extends CommandHelper
 {
     public $signature = 'api:consume';
     public $description = 'This command allows you to fetch data from external source';

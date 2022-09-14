@@ -10,11 +10,13 @@
 namespace App\Command\Helpers;
 
 use App\Command\CLI\APICommand;
+use App\Command\CLI\TableMigration;
 
 class ListOfCommands
 {
     public const COMMAND_LIST = [
         'api:consume' => APICommand::class,
         'help:list' => "HelpCommand",
+        'migration' => TableMigration::class
     ];
 }

@@ -36,7 +36,7 @@ if (!Capsule::schema()->hasTable('table_data')) {
         $table->index('type');
     });
 
-    echo "\n=============== Table 'table_data' created ===================\n\n";
+    echo "\n=============== Table 'table_data' created ===================\n";
 } else {
-    echo "\nTable 'table_data' already exist\n\n";
+    echo "\n=============== Table 'table_data' already exist ===================\n";
 }
