@@ -1,5 +1,5 @@
 # ref: https://github.com/github/gitignore/blob/master/Composer.gitignore
-/vendor
+vendor
 .phpunit.result.cache
 /.idea
 /.vscode
