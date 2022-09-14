@@ -31,7 +31,7 @@ require_once "nav_bar.php";
                             <div class="col-lg-8 offset-lg-2 col-md-9 col-sm-12 col-xs-12">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <form action="store" method="post" class="" enctype="multipart/form-data">
+                                        <form action="store" method="post" class="addNew_data" enctype="multipart/form-data">
 
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">County</label>
@@ -132,10 +132,9 @@ require_once "nav_bar.php";
                                             <div class="form-group mt-4">
                                                 <button type="submit" class="btn btn-primary mb-4">Submit</button>
                                             </div>
+                                            <div class="submitLoader searchLoader" style="margin-left: 100px; margin-top: -73px;"></div>
+                                            <p class="alert alert-info result" style="margin-left: 0px; margin-top: -3px; display: none;"></p>
                                         </form>
-                                    </div>
-                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                                        <div class="submitLoader searchLoader" style="float: right; "></div>
                                     </div>
                                 </div>
                             </div>
@@ -145,6 +144,37 @@ require_once "nav_bar.php";
         </div>
     </div>
 </main>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".addNew_data").on("submit", (function(e){
+            e.preventDefault();
+            $(".submitLoader").show();
+            $.ajaxSetup({
+                headers:{
+                    "X-CSRF-TOKEN":$('meta[name="csrf-token"]').attr("content")
+                }
+            });
+
+            $.ajax({
+                url:'store',
+                method:'POST',
+                data:new FormData(this),
+                contentType:false,
+                processData:false,
+                success:function(data){
+                    $(".submitLoader").hide();
+                    $('.result').show();
+                    $('.result').html(data);
+                    $(".addNew_data")[0].reset();
+                }
+            })
+        }))
+    })
+
+</script>
 
 <?php
 

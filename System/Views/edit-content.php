@@ -38,7 +38,7 @@ require_once "nav_bar.php";
                                         </picture>
                                     </a>
 
-                                    <form action="update" method="post" class="mt-4" enctype="multipart/form-data">
+                                    <form action="update" method="post" class="mt-4 updateForm" enctype="multipart/form-data">
 
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">County</label>
@@ -144,11 +144,13 @@ require_once "nav_bar.php";
                                         <div class="form-group mt-4">
                                             <button type="submit" class="btn btn-primary mb-4">Submit</button>
                                         </div>
+
+                                            <div class="submitLoader searchLoader" style="margin-left: 100px; margin-top: -73px;"></div>
+                                        <p class="alert alert-info result" style="margin-left: 0px; margin-top: -3px; display: none;"></p>
+
                                     </form>
                                 </div>
-                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                                    <div class="submitLoader searchLoader" style="float: right; "></div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -157,6 +159,36 @@ require_once "nav_bar.php";
         </div>
     </div>
 </main>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".updateForm").on("submit", (function(e){
+            e.preventDefault();
+            $(".submitLoader").show();
+            $.ajaxSetup({
+                headers:{
+                    "X-CSRF-TOKEN":$('meta[name="csrf-token"]').attr("content")
+                }
+            });
+
+            $.ajax({
+                url:'update',
+                method:'POST',
+                data:new FormData(this),
+                contentType:false,
+                processData:false,
+                success:function(data){
+                    $(".submitLoader").hide();
+                    $('.result').show();
+                    $('.result').html(data);
+                    $(".updateForm")[0].reset();
+                }
+            })
+        }))
+    })
+
+</script>
 
 <?php
 require_once SYS_PATH . '/inc/footer.php';
