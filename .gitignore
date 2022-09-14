@@ -1,0 +1,15 @@
+# ref: https://github.com/github/gitignore/blob/master/Composer.gitignore
+/vendor
+.phpunit.result.cache
+/.idea
+/.vscode
+.env
+.DS_Store
+composer.phar
+# php-cs-fixer cache
+.php_cs.cache
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+.php-cs-fixer.cache
+/tests
