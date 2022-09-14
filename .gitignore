@@ -3,7 +3,7 @@ vendor
 .phpunit.result.cache
 /.idea
 /.vscode
-.env
+/.env
 .DS_Store
 composer.phar
 # php-cs-fixer cache
