@@ -89,4 +89,10 @@ class TableData extends Eloquent
             ->orWhere('num_bathrooms', 'LIKE', $search)
             ->get();
     }
+
+    public function editContent($pageNo)
+    {
+        return $this::where('id', $pageNo)
+            ->first();
+    }
 }

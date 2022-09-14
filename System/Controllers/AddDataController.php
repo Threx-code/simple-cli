@@ -9,6 +9,7 @@ namespace App\Controllers;
 
 use App\Models\TableData;
 use App\Requests\AddDataRequest;
+use App\Requests\EditViewRequest;
 use App\Services\ImageIntervention;
 use App\Validation\Csrf;
 use Exception;
@@ -54,7 +55,6 @@ class AddDataController extends Controller
                 echo json_encode(["Error"=> "Please select an Image to upload"]);
                 exit;
             }
-
             $value = [];
             $value['county'] = $request['county'];
             $value['country'] = $request['country'];
@@ -70,8 +70,25 @@ class AddDataController extends Controller
             $value['address'] = $request['address'];
             $value['property_type'] = json_encode(["type" => $request['type'], "description" => $request['description']]);
             $value['type'] = $request['type'];
-            print_r($value);
             (new TableData())->insertIntoData($value);
+        }
+    }
+
+    public function edit()
+    {
+        $request = $_REQUEST;
+        $req = get_defined_vars();
+        $validator = (new EditViewRequest($req['request']))->validate();
+        if (!empty($validator)) {
+            echo json_encode($validator);
+            exit;
+        }
+        if ($this->checkToken($request['token'])) {
+            $pageNo = Csrf::sanitizeString($request['page_no']) ;
+            $data = (new TableData())->editContent($pageNo);
+
+            return $this->view("add-data", compact('data')
+            );
         }
     }
 }

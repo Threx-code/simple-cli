@@ -13,7 +13,7 @@ use App\Validation\Csrf as CSRF;
 use Exception;
 
 session_start();
-\App\Validation\Csrf::sameSessionId();
+CSRF::sameSessionId();
 class Controller
 {
     use CSRF;

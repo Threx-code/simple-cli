@@ -23,10 +23,10 @@ class App
     public function __construct()
     {
         $url = $this->parseUrl();
-
-        if (!empty(RouteController::ROUTE[$url[1]])) {
-            $this->controller = RouteController::ROUTE[$url[1]][0];
-            $this->method = RouteController::ROUTE[$url[1]][1];
+        if (!empty($url[1])) {
+            $path = explode('?', $url[1]);
+            $this->controller = RouteController::ROUTE[$path[0]][0];
+            $this->method = RouteController::ROUTE[$path[0]][1];
         }
         require_once "System/Controllers/".$this->controller. ".php";
         $this->controller = "\\App\\Controllers\\$this->controller";

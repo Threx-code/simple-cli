@@ -18,7 +18,6 @@ class IndexController extends Controller
     {
         if (isset($_GET['page_no'], $_GET['token']) && !empty($_GET['page_no'])) {
             $page_no = $this->sanitize($_GET['page_no']);
-        //&& $this->checkToken($_GET['token'])
         } else {
             $page_no = 1;
         }
@@ -38,10 +37,7 @@ class IndexController extends Controller
         $total_no_of_pages = ceil($total_records / $per_page);
         $second_last = $total_no_of_pages - 1;
 
-        return $this->view(
-            "homepage",
-            compact('csrf', 'data', 'page_no', 'previous_page', 'next_page', 'total_no_of_pages')
-        );
+        return $this->view("homepage", compact('csrf', 'data', 'page_no', 'previous_page', 'next_page', 'total_no_of_pages'));
     }
 
     /**
@@ -49,7 +45,6 @@ class IndexController extends Controller
      */
     public function search()
     {
-
         $request = $_REQUEST;
         $req = get_defined_vars();
         $validator = (new SearchRequest($req['request']))->validate();
@@ -60,8 +55,7 @@ class IndexController extends Controller
         if ($this->checkToken($request['token'])) {
             $search = Csrf::sanitizeString($request['search']) ;
             $data = (new TableData())->search($search);
-            return $this->view("search",
-                compact('data')
+            return $this->view("search", compact('data')
             );
         }
     }

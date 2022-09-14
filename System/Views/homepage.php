@@ -49,6 +49,7 @@ require_once "nav_bar.php";
                                      <strong>Description:</strong> <?php echo($pro_type['description']); ?>
                                  </small><br>
 
+                                 <a href="edit?page_no=<?php echo $val->id; ?>&token=<?php echo $crfToken; ?>" class="item-wrap btn btn-primary mb-4" data-fancybox="gal">Edit</a>
                              </div>
                         <?php } ?>
                     </div>

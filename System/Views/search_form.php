@@ -7,7 +7,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <form action="search" method="post" class="searchCodeForm">
                             <div class="input-group">
-                                <input type="text" class="form-control search_input" name="search" placeholder="Search with code" autofocus>
+                                <input type="text" class="form-control search_input" name="search" placeholder="Enter your search" autofocus>
                             </div>
 
                              <input type="hidden" class="form-control" name="token" value="<?php echo $crfToken; ?>">

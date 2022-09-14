@@ -16,7 +16,10 @@ require_once "nav_bar.php";
                     <div class="container">
                         <div class="row align-items-center">
                             <div class="col-md-7">
-                                <p>Your Search Result</p>
+                                 <?php
+                                    if (!empty(json_decode($data, true))) { ?>
+                                        <p>Your Search Result</p>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -27,7 +30,7 @@ require_once "nav_bar.php";
                     <div id="posts" class="row no-gutter">
 
                         <?php
-                        if (!empty($data)) {
+                        if (!empty(json_decode($data, true))) {
                             foreach ($data as $val) { ?>
                              <div class="item web col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4" style="border: 1px solid #eee; padding: 20px">
                                 <strong>County: <?php echo $val->county; ?></strong>
@@ -57,7 +60,7 @@ require_once "nav_bar.php";
                             ?>
 
                            <div class="row align-items-center">
-                           	<p>No result on your search....try some new</p>
+                           	<p style="margin-left: 200px; font-size: 20px; margin-top: 20px;">No result on your search....try something new</p>
                            </div>
 
                     <?php } ?>
