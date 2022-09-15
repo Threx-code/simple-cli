@@ -16,6 +16,7 @@ class RouteController
         'store'     => ['AddDataController', 'store'],
         'search'    => ['IndexController', 'search'],
         'edit'      => ['AddDataController', 'edit'],
-        'update'    => ['AddDataController', 'update']
+        'update'    => ['AddDataController', 'update'],
+        'delete'    => ['AddDataController', 'delete']
     ];
 }

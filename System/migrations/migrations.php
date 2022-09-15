@@ -26,6 +26,8 @@ if (!Capsule::schema()->hasTable('table_data')) {
         $table->longText('property_type');
         $table->string('type');
         $table->timestamps();
+        $table->boolean('deleted')->nullable();
+        $table->string('date_deleted')->nullable();
         $table->index('county');
         $table->index('country');
         $table->index('town');

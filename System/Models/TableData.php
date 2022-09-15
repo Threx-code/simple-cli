@@ -60,6 +60,28 @@ class TableData extends Eloquent
         return 2;
     }
 
+    /**
+     * @param float $offset
+     * @param int $per_page
+     * @return mixed
+     */
+    public function getData(float $offset, int $per_page)
+    {
+        return $this::orderby('id', 'desc')->where('deleted', null)->offset($offset)->limit($per_page)->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function countRecord()
+    {
+        return $this::where('deleted', null)->count('id');
+    }
+
+    /**
+     * @param $value
+     * @return void
+     */
     public function insertIntoData($value): void
     {
         $this->county = Csrf::sanitizeString($value['county']);
@@ -79,25 +101,37 @@ class TableData extends Eloquent
         $this->save();
     }
 
-
+    /**
+     * @param $search
+     * @return mixed
+     */
     public function search($search)
     {
         $search = "%" . Csrf::sanitizeString($search) . "%";
         return $this::where('address', 'LIKE', $search)
+            ->where('deleted', null)
             ->orWhere('price', 'LIKE', $search)
             ->orWhere('num_bedrooms', 'LIKE', $search)
             ->orWhere('num_bathrooms', 'LIKE', $search)
             ->get();
     }
 
+    /**
+     * @param $pageNo
+     * @return mixed
+     */
     public function editContent($pageNo)
     {
-        return $this::where('id', $pageNo)->first();
+        return $this::where('id', $pageNo)->where('deleted', null)->first();
     }
 
+    /**
+     * @param $value
+     * @return string
+     */
     public function updateData($value)
     {
-        $data = $this::where('id', $value['id'])->first();
+        $data = $this::where('id', $value['id'])->where('deleted', null)->first();
         if(empty(json_decode($data, true))){
             return "Sorry this data id does not exist";
         }
@@ -148,4 +182,21 @@ class TableData extends Eloquent
 
         return "Data updated successfully";
     }
+
+    /**
+     * @param array $value
+     * @return false|void
+     */
+    public function deleteData(array $value)
+    {
+        $data = $this::where('id', $value['id'])->first();
+        if(!empty(json_decode($data, true))) {
+            $data->deleted = true;
+            $data->date_deleted = date('Y-m-d H:i:s');
+            $data->save();
+        }
+
+    }
+
+
 }

@@ -141,4 +141,23 @@ class AddDataController extends Controller
         }
 
     }
+
+    public function delete()
+    {
+        $request = $_REQUEST;
+        $req = get_defined_vars();
+        $validator = (new UpdateDataRequest($req['request']))->validate();
+        if (!empty($validator)) {
+            echo json_encode($validator);
+            exit;
+        }
+
+        if ($this->checkToken($request['token'])) {
+            $value = [];
+            $value['id'] = $request['id'];
+            (new TableData())->deleteData($value);
+            echo "Deleted";
+        }
+
+    }
 }

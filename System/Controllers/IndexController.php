@@ -25,14 +25,13 @@ class IndexController extends Controller
         $csrf = $this->csrf();
         $this->model('TableData');
         $per_page = $tableData->perPage();
-
         $offset = $tableData->offset($page_no);
         $previous_page = $tableData->previousPage($page_no);
         $next_page = $tableData->nextPage($page_no);
         $adjacent = $tableData->adjacent();
 
-        $data = TableData::orderby('id', 'desc')->offset($offset)->limit($per_page)->get();
-        $total_records = TableData::count('id');
+        $data =  $tableData->getData($offset, $per_page);
+        $total_records = $tableData->countRecord();
 
         $total_no_of_pages = ceil($total_records / $per_page);
         $second_last = $total_no_of_pages - 1;

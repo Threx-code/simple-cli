@@ -32,7 +32,7 @@ require_once "nav_bar.php";
                         <?php
                         if (!empty(json_decode($data, true))) {
                             foreach ($data as $val) { ?>
-                                <div class="item web col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4 card" style="border: 1px solid #eee; padding: 20px">
+                                <div class="item web col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4 card data-div<?php echo $val->id; ?>" style="border: 1px solid #eee; padding: 20px">
                                     <a href="<?php echo $val->image; ?>" class="item-wrap" data-fancybox="gal">
                                         <picture class="card-img-top">
                                             <source srcset="<?php echo $val->image; ?>" type="image/svg+xml">
@@ -54,7 +54,46 @@ require_once "nav_bar.php";
                                     </small><br>
 
                                     <a href="edit?item_no=<?php echo $val->id; ?>&token=<?php echo $crfToken; ?>" class="item-wrap btn btn-primary mb-4" data-fancybox="gal">Edit</a>
+                                    <span class="item-wrap btn btn-primary mb-4 click-delete<?php echo $val->id; ?>" data-fancybox="gal">Delete</span>
+                                    <form action="delete" method="post" class="mt-4 delete<?php echo $val->id; ?>" enctype="multipart/form-data">
+                                        <input type="hidden" class="form-control" name="token" value="<?php echo $crfToken; ?>">
+                                        <input type="hidden" class="form-control" name="id" value="<?php echo $val->id; ?>">
+                                        <div class="form-group mt-4">
+                                            <button type="submit" class="btn btn-primary mb-4 delete-button<?php echo $val->id; ?>" style="display: none;">Submit</button>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $(document).ready(function(){
+                                                $(".click-delete<?php echo $val->id; ?>").on('click', function(){
+                                                    $(".delete-button<?php echo $val->id; ?>").click();
+                                                });
+
+                                                $(".delete<?php echo $val->id; ?>").on("submit", (function(e){
+                                                    e.preventDefault();
+                                                    $.ajaxSetup({
+                                                        headers:{
+                                                            "X-CSRF-TOKEN":$('meta[name="csrf-token"]').attr("content")
+                                                        }
+                                                    });
+                                                    $.ajax({
+                                                        url:'delete',
+                                                        method:'POST',
+                                                        data:new FormData(this),
+                                                        contentType:false,
+                                                        processData:false,
+                                                        success:function(data){
+                                                            if(data == "Deleted") {
+                                                                $(".data-div<?php echo $val->id; ?>").fadeOut();
+                                                            }
+                                                        }
+                                                    })
+                                                }))
+                                            })
+
+                                        </script>
+
+                                    </form>
                                 </div>
+
                             <?php
                             }
                         } else {
