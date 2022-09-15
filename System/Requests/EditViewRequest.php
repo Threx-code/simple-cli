@@ -13,7 +13,7 @@ class EditViewRequest extends BaseRequest
     protected function rules(): array
     {
         return [
-            'page_no'        => ['required', 'integer'],
+            'item_no'        => ['required', 'integer'],
             'token'       => ['required','string'],
         ];
     }

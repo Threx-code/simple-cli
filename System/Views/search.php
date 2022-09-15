@@ -52,7 +52,10 @@ require_once "nav_bar.php";
                                     <strong>Description:</strong> <?php echo($pro_type['description']); ?></small><br>
                                     <small><strong>Available for:</strong> <?php echo $val->type; ?></small>
                                     <small><strong>Date Posted:</strong> <?php echo $val->created_at; ?></small>
-                                </div>
+                                    <div class="form-group mt-4">
+                                        <a href="edit?item_no=<?php echo $val->id; ?>&token=<?php echo $crfToken; ?>" class="item-wrap btn btn-primary mb-4" data-fancybox="gal">Edit</a>
+                                    </div>
+                             </div>
 
                             <?php
                             }
