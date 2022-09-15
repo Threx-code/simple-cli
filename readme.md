@@ -17,7 +17,7 @@ Features include
 ## Consume API from terminal
 - php command api:consume
 
-## Start the Application
+## Start the Application on your local machine
 - php -S 192.168.10.20:8000
 
 Once the application starts running, copy the url to your browser. e.g http://192.168.10.20:8000/
