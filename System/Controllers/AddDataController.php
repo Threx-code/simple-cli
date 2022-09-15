@@ -86,7 +86,7 @@ class AddDataController extends Controller
         }
 
         if ($this->checkToken($request['token'])) {
-            $pageNo = Csrf::sanitizeString($request['page_no']) ;
+            $pageNo = Csrf::sanitizeString($request['item_no']) ;
             $data = (new TableData())->editContent($pageNo);
             $data = json_decode($data, true);
 
