@@ -5,7 +5,7 @@
  * * @license MIT http://opensource.org/licenses/MIT
  * @since Version 1.0
  */
-namespace App\kernel;
+namespace App\Kernel;
 
 class Error
 {

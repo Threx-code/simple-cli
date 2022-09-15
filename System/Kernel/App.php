@@ -5,7 +5,7 @@
  * * @license MIT http://opensource.org/licenses/MIT
  * @since Version 1.0
  */
-namespace App\kernel;
+namespace App\Kernel;
 
 use App\Controllers\RouteController;
 
@@ -37,7 +37,7 @@ class App
 
         $this->param = $url ? array_values($url) : [];
 
-        call_user_func_array([new ($this->controller), $this->method], $this->param);
+        call_user_func_array([new $this->controller, $this->method], $this->param);
     }
 
 
